@@ -1,0 +1,12 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+	<default>
+		<mikrotik>
+			<mikrotik_settings>
+				<ip_address/>
+				<username/>
+				<password/>
+			</mikrotik_settings>
+		</mikrotik>
+	</default>
+</config>

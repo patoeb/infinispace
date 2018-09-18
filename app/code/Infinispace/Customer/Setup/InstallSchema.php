@@ -24,10 +24,16 @@ class InstallSchema implements InstallSchemaInterface
         $table = $setup->getConnection()->newTable(
             $setup->getTable('infinispace_customer')
         )->addColumn(
-            'customer_id',
+            'id',
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             null,
             ['identity' => true, 'unsigned' => true, 'nullable' => false, 'primary' => true],
+            'ID'
+        )->addColumn(
+            'customer_id',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            255,
+            [],
             'Customer ID'
         )->addColumn(
             'hotspot_username',
@@ -48,17 +54,23 @@ class InstallSchema implements InstallSchemaInterface
             [],
             'Mac Address'
         )->addColumn(
-            'type',
+            'sub_type',
             \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
             255,
             [],
             'Subscription Type'
         )->addColumn(
+            'sub_hours',
+            \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
+            0,
+            ['nullable' => true],
+            'Subscription Hours'
+        )->addColumn(
             'sub_days',
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             0,
             ['nullable' => true],
-            'Subscription Day'
+            'Subscription Days'
         )->addColumn(
             'active',
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,

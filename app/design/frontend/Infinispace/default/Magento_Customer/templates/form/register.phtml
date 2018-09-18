@@ -163,13 +163,13 @@
         <div class="field required">
             <label for="hotspot_username" class="label"><span><?php /* @escapeNotVerified */ echo __('Hotspot Username') ?></span></label>
             <div class="control">
-                <input type="text" name="hotspot_username" id="hotspot_username" value="<?php echo $block->escapeHtml($block->getFormData()->getHotspotUsername()) ?>" title="<?php /* @escapeNotVerified */ echo __('Hotspot Username') ?>" class="input-text" data-validate="{required:true, 'validate-phoneStrict':true}">
+                <input type="text" name="hotspot_username" id="hotspot_username" value="<?php echo $block->escapeHtml($block->getFormData()->getHotspotUsername()) ?>" title="<?php /* @escapeNotVerified */ echo __('Hotspot Username') ?>" class="input-text" data-validate="{required:true}">
             </div>
         </div>
         <div class="field required">
             <label for="hotspot_password" class="label"><span><?php /* @escapeNotVerified */ echo __('Hotspot Password') ?></span></label>
             <div class="control">
-                <input type="text" name="hotspot_password id="hotspot_username" value="<?php echo $block->escapeHtml($block->getFormData()->getHotspotPassword()) ?>" title="<?php /* @escapeNotVerified */ echo __('Hotspot Password') ?>" class="input-text" data-validate="{required:true, 'validate-phoneStrict':true}">
+                <input type="text" name="hotspot_password" id="hotspot_password" value="<?php echo $block->escapeHtml($block->getFormData()->getHotspotPassword()) ?>" title="<?php /* @escapeNotVerified */ echo __('Hotspot Password') ?>" class="input-text" data-validate="{required:true}" autocomplete="off">
             </div>
         </div>
         <?= $block->getChildHtml('form_additional_info') ?>
