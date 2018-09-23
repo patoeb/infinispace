@@ -23,6 +23,17 @@
 					<comment/>
 				</field>
 			</group>
+			<group id="magento_settings" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
+				<label>Magento Settings</label>
+				<field id="access_token" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>Infinispace Access Token</label>
+					<comment/>
+				</field>
+				<field id="base_url" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="text">
+					<label>Infinispace URL</label>
+					<comment/>
+				</field>
+			</group>
 		</section>
 	</system>
 </config>

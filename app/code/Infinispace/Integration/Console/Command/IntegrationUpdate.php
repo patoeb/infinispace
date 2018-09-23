@@ -12,8 +12,15 @@ use Symfony\Component\Console\Output\OutputInterface;
 class IntegrationUpdate extends Command
 {
 
-    const NAME_ARGUMENT = "name";
-    const NAME_OPTION = "option";
+    protected $mikrotik;
+
+	public function __construct(
+		\Infinispace\Integration\Helper\Mikrotik $mikrotik,
+		array $commands = []
+	){
+		$this->mikrotik = $mikrotik;
+		parent::__construct();
+	}
 
     /**
      * {@inheritdoc}
@@ -22,9 +29,31 @@ class IntegrationUpdate extends Command
         InputInterface $input,
         OutputInterface $output
     ) {
-        $name = $input->getArgument(self::NAME_ARGUMENT);
-        $option = $input->getOption(self::NAME_OPTION);
-        $output->writeln("Hello " . $name);
+        // Get Customer Data using API
+
+        // Enable/Disable Debug Mirkotik 
+        $this->mikrotik->debug = TRUE;
+
+        // Ambil mac address user yang sudah aktif / connect ke mikrotik 
+        if ($this->mikrotik->connect('192.168.1.100', 'admin', '123qwe123')) {
+            $this->mikrotik->write('/ip/hotspot/cookie/print',true);
+            $READ = $this->mikrotik->read(false);
+            $data = $this->mikrotik->parseResponse($READ);
+            $this->mikrotik->disconnect();
+        }
+
+        foreach ($data as $key => $value) {
+            if($value['user'] == 'user'){
+                if ($this->mikrotik->connect('192.168.100.1', 'admin', '')) {
+                    $this->mikrotik('/ip/hotspot/ip-binding/add',false);
+                    $this->mikrotik('=type=bypassed',false);
+                    $this->mikrotik("=mac-address=".$value['mac-address'],true);
+                    $READ = $this->mikrotik->read();
+                    $this->mikrotik->disconnect();
+                    ob_clean();
+                }
+            }
+        }
     }
 
     /**
@@ -32,12 +61,9 @@ class IntegrationUpdate extends Command
      */
     protected function configure()
     {
-        $this->setName("infinispace_integration:integrationUpdate");
+        $this->setName("infinispace:integration-update");
         $this->setDescription("Get active user and Update to Mikrotik");
-        $this->setDefinition([
-            new InputArgument(self::NAME_ARGUMENT, InputArgument::OPTIONAL, "Name"),
-            new InputOption(self::NAME_OPTION, "-a", InputOption::VALUE_NONE, "Option functionality")
-        ]);
+
         parent::configure();
     }
 }

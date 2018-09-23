@@ -33,20 +33,29 @@ class OrderInvoicePay implements \Magento\Framework\Event\ObserverInterface
         $invoice = $observer->getEvent()->getInvoice();
         $order = $invoice->getOrder();
         $orderItems = $order->getAllItems();
-        
+
         foreach($orderItems as $item){
-            $logger->info($item->getSku());
-            $logger->info($item->getProductId());
+            $productId = $item->getProductId();
         }
         
         $customer = $this->_customerRepositoryInterface->getById($order->getCustomerId());
-        $product = $this->_productRepository->getById($id);
+        $product = $this->_productRepository->getById($productId);
 
-        // $infiniCustomer = $this->_infiniCustomer->create();
-        // $infiniCustomer->setCustomerId($order->getCustomerId());
-        // $infiniCustomer->setHotspotUsername($customer->getCustomAttribute('hotspot_username')->getValue());
-        // $infiniCustomer->setHotspotPassword($customer->getCustomAttribute('hotspot_password')->getValue());
-        // $infiniCustomer->save();
+        $infiniCustomer = $this->_infiniCustomer->create();
+        $infiniCustomer->setCustomerId($order->getCustomerId());
+        $infiniCustomer->setHotspotUsername($customer->getCustomAttribute('hotspot_username')->getValue());
+        $infiniCustomer->setHotspotPassword($customer->getCustomAttribute('hotspot_password')->getValue());
+        $subType = $product->getResource()->getAttribute('sub_type')->getFrontend()->getValue($product);
+        $infiniCustomer->setSubType($subType);
+        if($subType === 'timer'){
+            $infiniCustomer->setSubHours($product->getSubHours());
+            $infiniCustomer->setSubDays(0);
+        }else{
+            $infiniCustomer->setSubDays($product->getSubDays());
+            $infiniCustomer->setSubHours(0);
+        }
+        $infiniCustomer->setActive(FALSE);
+        $infiniCustomer->save();
         
     }
 }
