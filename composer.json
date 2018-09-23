@@ -9,7 +9,8 @@
     ],
     "require": {
         "magento/product-community-edition": "2.2.5",
-        "composer/composer": "@alpha"
+        "composer/composer": "@alpha",
+        "icubeus/magento2-veritranspayment": "dev-master"
     },
     "require-dev": {
         "phpunit/phpunit": "~6.2.0",
@@ -50,12 +51,16 @@
         }
     },
     "minimum-stability": "stable",
-    "repositories": [
-        {
+    "repositories": {
+        "0": {
             "type": "composer",
             "url": "https://repo.magento.com/"
+        },
+        "icubeus-veritranspayment": {
+            "type": "git",
+            "url": "git@github.com:icubeus/magento2-veritranspayment.git"
         }
-    ],
+    },
     "extra": {
         "magento-force": "override"
     }
