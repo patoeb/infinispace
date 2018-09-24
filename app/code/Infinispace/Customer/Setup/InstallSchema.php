@@ -79,13 +79,13 @@ class InstallSchema implements InstallSchemaInterface
             'Membership Status'
         )->addColumn(
             'created_at',
-            \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+            \Magento\Framework\DB\Ddl\Table::TYPE_DATETIME,
             \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT,
             ['nullable' => true],
             'Created At'
         )->addColumn(
             'expired_at',
-            \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+            \Magento\Framework\DB\Ddl\Table::TYPE_DATETIME,
             NULL,
             ['nullable' => true],
             'Expired At'
