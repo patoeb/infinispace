@@ -37,12 +37,12 @@ class UpgradeData implements UpgradeDataInterface
         
             $eavSetup->addAttribute(
                 \Magento\Catalog\Model\Product::ENTITY,
-                'sub_type',
+                'product_type',
                 [
                     'type' => 'int',
                     'backend' => '',
                     'frontend' => '',
-                    'label' => 'Subscription Type',
+                    'label' => 'Product Type',
                     'input' => 'select',
                     'class' => '',
                     'source' => '',
@@ -60,7 +60,7 @@ class UpgradeData implements UpgradeDataInterface
                     'apply_to' => '',
                     'system' => 1,
                     'group' => 'General',
-                    'option' => array('values' => array("timer","bypass"))
+                    'option' => array('values' => array("sub","bypass"))
                 ]
             );
 

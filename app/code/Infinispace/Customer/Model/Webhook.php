@@ -19,10 +19,10 @@ class Webhook
     /**
      * {@inheritdoc}
      */
-    public function getProcessingCustomer($active)
+    public function getProcessingCustomer($status)
     {
         $collection = $this->_infiniCustomer->create()->getCollection();
-        $collection = $collection->addFieldToFilter('active',array('eq' => $active));
+        $collection = $collection->addFieldToFilter('active',array('eq' => $status));
         
         return $collection->getData();
     }
@@ -30,9 +30,42 @@ class Webhook
     /**
      * {@inheritdoc}
      */
-    public function setActiveCustomer($username)
+    public function setActiveCustomer($username,$value)
     {
         date_default_timezone_set('Asia/Jakarta');
+
+        $collection = $this->_infiniCustomer->create()->getCollection();
+        $collection = $collection->addFieldToFilter('hotspot_username',array('eq' => $username));
+        foreach($collection as $key => $customer) {
+            $customer->setActive($value);
+            $customer->save();
+        }
+        return 'success';       
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setStatusCustomer($username,$status)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+
+        $collection = $this->_infiniCustomer->create()->getCollection();
+        $collection = $collection->addFieldToFilter('hotspot_username',array('eq' => $username));
+        foreach($collection as $key => $customer) {
+            $customer->setStatus($status);
+            $customer->save();
+            return 'success';
+        }        
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setMacAddress($username, $macAddress)
+    {
+        date_default_timezone_set('Asia/Jakarta');
+
         $collection = $this->_infiniCustomer->create()->getCollection();
         $collection = $collection->addFieldToFilter('hotspot_username',array('eq' => $username));
         foreach($collection as $key => $customer) {
@@ -40,10 +73,20 @@ class Webhook
             $days = $customer['sub_days'];
             $createdAt = date("Y-m-d H:i:s");
             $expiredAt = date("Y-m-d H:i:s",strtotime($createdAt .'+'.$days.' days'.'+'.$hours.' hours'));
-            $customer->setActive(TRUE);
+            $customer->setMacAddress($macAddress);
             $customer->setCreatedAt($createdAt);
             $customer->setExpiredAt($expiredAt);
             $customer->save();
-        }        
+            return 'success';
+        }
+    }
+
+    public function removeCustomer($username){
+        $collection = $this->_infiniCustomer->create()->getCollection();
+        $collection = $collection->addFieldToFilter('hotspot_username',array('eq' => $username));
+        foreach($collection as $key => $customer) {
+            $customer->delete();
+        }
+        return 'success';
     }
 }

@@ -12,4 +12,22 @@
 			<resource ref="anonymous"/>
 		</resources>
 	</route>
+	<route method="GET" url="/V1/infinispace-customer/setstatuscustomer">
+		<service class="Infinispace\Customer\Api\Webhook" method="setStatusCustomer"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+	<route method="GET" url="/V1/infinispace-customer/removecustomer">
+		<service class="Infinispace\Customer\Api\Webhook" method="removeCustomer"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+	<route method="POST" url="/V1/infinispace-customer/setmacaddress">
+		<service class="Infinispace\Customer\Api\Webhook" method="setMacAddress"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
 </routes>

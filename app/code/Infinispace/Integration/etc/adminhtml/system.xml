@@ -22,6 +22,11 @@
 					<label>Password</label>
 					<comment/>
 				</field>
+				<field id="debug" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label" type="select">
+					<label>Debug</label>
+					<comment/>
+					<source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+				</field>
 			</group>
 			<group id="magento_settings" showInDefault="1" showInStore="1" showInWebsite="1" sortOrder="10" translate="label">
 				<label>Magento Settings</label>
