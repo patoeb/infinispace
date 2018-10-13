@@ -56,10 +56,10 @@ class OrderInvoicePay implements \Magento\Framework\Event\ObserverInterface
             }
         }
 
-        if($totalDays > 1) {
+        if($totalDays >= 1) {
             $subType = 'bypass';
             $totalHours = 0;
-        } elseif($totalHours > 0 && $totalDays == 1){
+        } elseif($totalHours > 0 && $totalDays == 0){
             $subType = 'timer';
         }
 

@@ -72,7 +72,11 @@ class Webhook
             $hours = $customer['sub_hours'];
             $days = $customer['sub_days'];
             $createdAt = date("Y-m-d H:i:s");
-            $expiredAt = date("Y-m-d H:i:s",strtotime($createdAt .'+'.$days.' days'.'+'.$hours.' hours'));
+            if($days > 0 && $hours > 0){
+                $expiredAt = date("Y-m-d H:i:s",strtotime($createdAt .'+'.$days.' days'.'+'.$hours.' hours'));
+            }elseif($days > 0 && $hours == 0){
+                $expiredAt = date("Y-m-d H:i:s",strtotime($createdAt .'+'.$days.' day midnight'));
+            }
             $customer->setMacAddress($macAddress);
             $customer->setCreatedAt($createdAt);
             $customer->setExpiredAt($expiredAt);
