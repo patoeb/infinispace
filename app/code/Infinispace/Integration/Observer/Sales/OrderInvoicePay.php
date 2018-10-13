@@ -26,36 +26,87 @@ class OrderInvoicePay implements \Magento\Framework\Event\ObserverInterface
     public function execute(
         \Magento\Framework\Event\Observer $observer
     ) {
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/' . 'customer-list.log');
+        date_default_timezone_set('Asia/Jakarta');
+
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/' . 'order-observer.log');
         $logger = new \Zend\Log\Logger();
         $logger->addWriter($writer);
 
+        $today = date("Y-m-d H:i:s");
         $invoice = $observer->getEvent()->getInvoice();
         $order = $invoice->getOrder();
         $orderItems = $order->getAllItems();
 
+        $totalHours = 0;
+        $totalDays = 0;
+        $orderHours = 0;
+        $orderDays = 0;
+        $subType = NULL;
+        $subFlag = FALSE;
+
         foreach($orderItems as $item){
             $productId = $item->getProductId();
+            $product = $this->_productRepository->getById($productId);
+            if($product->getTypeId() == 'virtual'){
+                $subFlag = TRUE;
+                $orderHours = $product->getSubHours() * $item->getQtyOrdered();
+                $orderDays = $product->getSubDays() * $item->getQtyOrdered();
+                $totalHours = $totalHours + $orderHours;
+                $totalDays = $totalDays + $orderDays;
+            }
         }
-        
-        $customer = $this->_customerRepositoryInterface->getById($order->getCustomerId());
-        $product = $this->_productRepository->getById($productId);
 
-        $infiniCustomer = $this->_infiniCustomer->create();
-        $infiniCustomer->setCustomerId($order->getCustomerId());
-        $infiniCustomer->setHotspotUsername($customer->getCustomAttribute('hotspot_username')->getValue());
-        $infiniCustomer->setHotspotPassword($customer->getCustomAttribute('hotspot_password')->getValue());
-        $subType = $product->getResource()->getAttribute('sub_type')->getFrontend()->getValue($product);
-        $infiniCustomer->setSubType($subType);
-        if($subType === 'timer'){
-            $infiniCustomer->setSubHours($product->getSubHours());
-            $infiniCustomer->setSubDays(0);
-        }else{
-            $infiniCustomer->setSubDays($product->getSubDays());
-            $infiniCustomer->setSubHours(0);
+        if($totalDays >= 1) {
+            $subType = 'bypass';
+            $totalHours = 0;
+        } elseif($totalHours > 0 && $totalDays == 0){
+            $subType = 'timer';
         }
-        $infiniCustomer->setActive(FALSE);
-        $infiniCustomer->save();
+
+        $customer = $this->_customerRepositoryInterface->getById($order->getCustomerId());
+        $infiniCustomer = $this->_infiniCustomer->create();
+        $collection = $infiniCustomer->getCollection();
+        $collection = $collection->addFieldToFilter('customer_id',array('eq' => $order->getCustomerId()));
+
+        if(count($collection->getData()) > 0){
+            foreach($collection as $key => $customer) {
+                $currentDays = $customer->getSubDays();
+                $currentHours = $customer->getSubHours();
+                $subcribtionType = $customer->getSubType();
+
+                $totalDays = $totalDays + $currentDays;
+                $totalHours = $totalHours + $currentHours;
+                if($subcribtionType == 'bypass') {
+                    $customer->setSubDays($totalDays);
+                }elseif ($subcribtionType == 'timer') {
+                    $customer->setSubHours($totalHours);
+                }
+                else{
+                    $customer->setSubHours($totalHours);
+                    $customer->setSubDays($totalDays);
+                }
+                $customer->setUpdatedAt($today);
+                if($customer->getStatus() == 'bypassed'){
+                    $customer->setExpiredAt(date("Y-m-d H:i:s",strtotime($customer->getExpiredAt()." + {$orderDays} days")));
+                }
+
+                if($customer->getSubType() == 'timer'){
+                    $customer->setExpiredAt(date("Y-m-d H:i:s",strtotime($customer->getExpiredAt()." + {$orderHours} hours")));
+                }
+                $customer->save();
+            }
+        }else {
+            $logger->info($customer->getCustomAttribute('hotspot_username')->getValue());
+            $infiniCustomer->setCustomerId($order->getCustomerId());
+            $infiniCustomer->setHotspotUsername($customer->getCustomAttribute('hotspot_username')->getValue());
+            $infiniCustomer->setHotspotPassword($customer->getCustomAttribute('hotspot_password')->getValue());
+            $infiniCustomer->setSubType($subType);
+            $infiniCustomer->setSubDays($totalDays);
+            $infiniCustomer->setSubHours($totalHours);
+            $infiniCustomer->setActive(FALSE);
+            $infiniCustomer->setStatus('free');
+            $infiniCustomer->save();
+        }
         
     }
 }

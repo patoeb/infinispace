@@ -1,7 +1,31 @@
 <?xml version="1.0" ?>
 <routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
-	<route method="GET" url="/V1/infinispace-customer/activecustomer">
-		<service class="Infinispace\Customer\Api\ActiveCustomerManagementInterface" method="getActiveCustomer"/>
+	<route method="GET" url="/V1/infinispace-customer/processingcustomer">
+		<service class="Infinispace\Customer\Api\Webhook" method="getProcessingCustomer"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+	<route method="GET" url="/V1/infinispace-customer/setactivecustomer">
+		<service class="Infinispace\Customer\Api\Webhook" method="setActiveCustomer"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+	<route method="GET" url="/V1/infinispace-customer/setstatuscustomer">
+		<service class="Infinispace\Customer\Api\Webhook" method="setStatusCustomer"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+	<route method="GET" url="/V1/infinispace-customer/removecustomer">
+		<service class="Infinispace\Customer\Api\Webhook" method="removeCustomer"/>
+		<resources>
+			<resource ref="anonymous"/>
+		</resources>
+	</route>
+	<route method="POST" url="/V1/infinispace-customer/setmacaddress">
+		<service class="Infinispace\Customer\Api\Webhook" method="setMacAddress"/>
 		<resources>
 			<resource ref="anonymous"/>
 		</resources>

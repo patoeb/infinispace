@@ -1,6 +1,6 @@
 <?xml version="1.0" ?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-	<preference for="Infinispace\Customer\Api\ActiveCustomerManagementInterface" type="Infinispace\Customer\Model\ActiveCustomerManagement"/>
+	<preference for="Infinispace\Customer\Api\Webhook" type="Infinispace\Customer\Model\Webhook"/>
 	<preference for="Infinispace\Customer\Api\CustomerRepositoryInterface" type="Infinispace\Customer\Model\CustomerRepository"/>
 	<preference for="Infinispace\Customer\Api\Data\CustomerInterface" type="Infinispace\Customer\Model\Customer"/>
 	<preference for="Infinispace\Customer\Api\Data\CustomerSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>

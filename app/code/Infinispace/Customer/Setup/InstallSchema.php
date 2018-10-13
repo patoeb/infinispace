@@ -76,16 +76,28 @@ class InstallSchema implements InstallSchemaInterface
             \Magento\Framework\DB\Ddl\Table::TYPE_INTEGER,
             0,
             ['nullable' => true],
-            'Membership Status'
+            'Active User'
+        )->addColumn(
+            'status',
+            \Magento\Framework\DB\Ddl\Table::TYPE_TEXT,
+            255,
+            [],
+            'Customer Status'
         )->addColumn(
             'created_at',
-            \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+            \Magento\Framework\DB\Ddl\Table::TYPE_DATETIME,
             \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT,
             ['nullable' => true],
             'Created At'
         )->addColumn(
+            'updated_at',
+            \Magento\Framework\DB\Ddl\Table::TYPE_DATETIME,
+            \Magento\Framework\DB\Ddl\Table::TIMESTAMP_INIT,
+            ['nullable' => true],
+            'Updated At'
+        )->addColumn(
             'expired_at',
-            \Magento\Framework\DB\Ddl\Table::TYPE_TIMESTAMP,
+            \Magento\Framework\DB\Ddl\Table::TYPE_DATETIME,
             NULL,
             ['nullable' => true],
             'Expired At'

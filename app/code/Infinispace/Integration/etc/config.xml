@@ -6,7 +6,12 @@
 				<ip_address/>
 				<username/>
 				<password/>
+				<debug />
 			</mikrotik_settings>
+			<magento_settings>
+				<access_token/>
+				<base_url/>
+			</magento_settings>
 		</mikrotik>
 	</default>
 </config>
