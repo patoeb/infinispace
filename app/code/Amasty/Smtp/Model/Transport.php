@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Amasty Team
- * @copyright Copyright (c) 2017 Amasty (https://www.amasty.com)
+ * @copyright Copyright (c) 2018 Amasty (https://www.amasty.com)
  * @package Amasty_Smtp
  */
 
@@ -139,5 +139,10 @@ class Transport extends \Zend_Mail_Transport_Smtp implements TransportInterface
 
             throw new \Exception(__('Connection failed'));
         }
+    }
+
+    public function getMessage()
+    {
+        return $this->_message;
     }
 }
