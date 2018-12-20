@@ -12,5 +12,6 @@
             <!-- training Javascript -->
             <block class="Magento\Theme\Block\Html\Topmenu" name="infinispace.js" template="page/js/jquery.main.phtml" />
         </referenceContainer>
+        <referenceBlock name="reviews.tab" remove="true" />
     </body>
 </page>
