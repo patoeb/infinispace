@@ -341,18 +341,6 @@ EOD;
                         <p>IT Sifu</p>
                     </div>
                 </div>
-                <div class="single_team">
-                    <div class="team_img"><img src="{{view url='img/team3.jpg'}}" alt="" />
-                        <div class="team_info">
-                            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi ipsa dignissimos neque architecto, hic quis.</p>
-                            <div class="team_social"><a href="#"><i class="fa fa-facebook"></i></a> <a href="#"><i class="fa fa-twitter"></i></a> <a href="#"><i class="fa fa-pinterest"></i></a> <a href="#"><i class="fa fa-google"></i></a></div>
-                        </div>
-                    </div>
-                    <div class="team_name">
-                        <h4>Hendricus Endra Dwi</h4>
-                        <p>IT Sifu</p>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

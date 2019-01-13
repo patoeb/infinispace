@@ -40,6 +40,11 @@ class InstallData implements InstallDataInterface
     .custom_nav li a{
         color:#FFF;
     }
+
+    header#main_heading {
+        position: fixed;
+        z-index: 9999;
+    }
 </style>
 
 <div class="clearfix"></div>
