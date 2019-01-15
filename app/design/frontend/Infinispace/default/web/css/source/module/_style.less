@@ -212,7 +212,7 @@ iframe{
 2. Header
 *************************/
 
-header{
+header#main_heading{
    
     color: #333;
     position: fixed;
@@ -1082,7 +1082,60 @@ a {
 .page-main {
     margin-top: 120px;
 }
+header#main_heading {
+    margin-top: 20px;
+    position: relative;
+    z-index: 0;
+}
+header#main_heading.sticky {
+    margin-top: 0;
+    position: fixed;
+    z-index: 9999;
+    height:80px;
+}
+header#main_heading {
+    margin-top: 20px;
+}
 header.page-header {
+    background: #be8631;
+    margin: 0 !important;
+    line-height: normal;
+    border-bottom: none;
+    height: 40px;
+    position: fixed;
+    z-index: 9999;
+    width: 100%;
+}
+.header a.logo {
+    display: none;
+}
+header.page-header .panel.wrapper {
+    margin-bottom: 0px;
+    background-color: #be8631;
+    border: 0px;
+}
+.page-header .panel.header {
+    width: 77%;
+    background: none;
+    margin-bottom: 0px;
+}
+.minicart-wrapper {
+    display: inline-block;
+    position: absolute;
+    float: right;
+    right: 100px;
+    top: -38px;
+}
+header.page-header .header.content {
+    padding: 0 90px 0 !important;
+}
+.minicart-wrapper .action.showcart:before {
+    color: #FFF !important;
+}
+strong.logo {
+    display: none;
+}
+.block.block-search {
     display: none;
 }
 footer.page-footer {
@@ -1098,4 +1151,30 @@ footer.page-footer {
     font-size: 18px !important;
     line-height: 1.33 !important;
     border-radius: 6px !important;
+}
+
+.action.primary {
+    background: #be8631;
+    border: 2px solid #a87e3e;
+}
+
+.action.primary:hover,
+.action.primary:focus, 
+.action.primary:active {
+    background: #be8631d1 !important;
+    border: 2px solid #a87e3e !important;
+}
+
+.label{
+    color:#333 !important;
+    font-size: 100% !important;
+}
+
+.minicart-items-wrapper {
+    height: auto !important;
+}
+
+.modal-content {
+    border: none;
+    box-shadow: none;
 }
