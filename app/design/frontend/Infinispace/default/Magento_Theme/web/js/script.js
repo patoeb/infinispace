@@ -94,7 +94,7 @@
         });
         // Brand Carousel Home Page
         jQuery("#team_slide").lightSlider({
-            item: 4,
+            item: 3,
             autoWidth: false,
             slideMove: 1, // slidemove will be 1 if loop is true
             slideMargin: 20,
@@ -138,7 +138,7 @@
             responsive: [{
                     breakpoint: 1024,
                     settings: {
-                        item: 4,
+                        item: 3,
                         slideMove: 1,
                         slideMargin: 6,
                     }
