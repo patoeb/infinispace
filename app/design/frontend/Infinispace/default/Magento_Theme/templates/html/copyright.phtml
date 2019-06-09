@@ -1,0 +1,42 @@
+<!-- Footer Area Start here -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 wow fadeInRight">
+                <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('infinispace-footer1')->toHtml();?>
+            </div>
+            <div class="col-md-2 wow fadeInLeft">
+                <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('infinispace-footer2')->toHtml();?>
+            </div>
+            <div class="col-md-3 wow fadeInRight">
+                <?php echo $block->getLayout()->createBlock('Magento\Cms\Block\Block')->setBlockId('infinispace-footer3')->toHtml();?>
+            </div>
+            <div class="col-md-3 wow fadeInLeft">
+                <div class="single_footer">
+                    <h3>Newsletter</h3>
+                    <p>Subscribe to our newsletter to get the latest News and offers.<p>
+                    <form class="form-subscribe">
+                        <div class="input-group">
+                            <input type="email" class="form-control input-lg" placeholder="Email Address" name="email">
+                            <span class="input-group-btn">
+                                <button type="submit" class="btn btn-bronze btn-lg" name="submit">  
+                                    <i class="fa fa-paper-plane"></i>
+                                </button>
+                            </span>    
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer_bottom">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 col-md-offset-3 text-center">
+                    <p>© Copyright 2018. All Rights Reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Footer Area End here -->
