@@ -1,7 +1,13 @@
 /*! lightslider - v1.1.6 - 2016-10-25
 * https://github.com/sachinchoolur/lightslider
 * Copyright (c) 2016 Sachin N; Licensed MIT */
-(function ($, undefined) {
+(function(factory) {
+    if(typeof define === 'function' && define.amd) {
+        define(['jquery'], factory);
+    } else {
+        factory(jQuery);
+    }
+}(function ($, undefined) {
     'use strict';
     var defaults = {
         item: 3,
@@ -1140,4 +1146,4 @@
         });
         return this;
     };
-}(jQuery));
+}));

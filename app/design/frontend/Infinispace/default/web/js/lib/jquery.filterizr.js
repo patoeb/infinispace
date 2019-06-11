@@ -8,7 +8,13 @@
 * @license MIT License
 */
 
-(function(global, $) {
+(function(factory) {
+    if(typeof define === 'function' && define.amd) {
+        define(['jquery'], factory);
+    } else {
+        factory(jQuery);
+    }
+}(function($, global) {
 
     'use strict';
 
@@ -562,7 +568,7 @@
             cols = Math.round(self.width() / self.find('.filtr-item').outerWidth()),
             rows = 0,
             //Item data
-            itemWidth  = array[0].outerWidth(),
+            // itemWidth  = array[0].outerWidth(),
             itemHeight = 0,
             //Position calculation vars
             left = 0, top = 0,
@@ -570,6 +576,14 @@
             i = 0, x = 0,
             //Array of positions to return
             posArray = [];
+
+            // replacement for itemWidth in the init var above
+            if (!array || !array.length) {
+                var itemWidth = 0;
+            }
+            else {
+                var itemWidth = array[0].outerWidth();
+            }
 
             //Layout for items of varying sizes
             if (self.options.layout === 'packed') {
@@ -690,7 +704,14 @@
                     }
                 }
                 rows = Math.ceil(array.length / cols);
-                containerHeight = rows * array[0].outerHeight();
+                // containerHeight = rows * array[0].outerHeight();
+                // replacement for containerHeight above
+                if (!array || !array.length) {
+                    containerHeight = 0;
+                }
+                else {
+                    containerHeight = rows * array[0].outerHeight();
+                }
             }
             //Update the height of .filtr-container based on new positions
             self.css('height', containerHeight);
@@ -1031,4 +1052,4 @@
         }
     };
 
-})(this, jQuery);
+}));
