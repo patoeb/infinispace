@@ -279,14 +279,12 @@ define([
         initLoginPage: function() {
 
             if ($('body.customer-account-login').length) {
-                console.log("loginpage");
             }
         },
     
         initCustomerAccountPage: function() {
             
             if( $('body.account').length ) {
-                console.log("accountpage");
             }
         },
       
