@@ -1,12 +1,16 @@
 <!-- Javascript library and plugin-->
-<script type="text/javascript" src="<?php echo $this->getViewFileUrl('Magento_Theme::js/jquery.min.js'); ?>"></script>
-<script src="<?php echo $this->getViewFileUrl('Magento_Theme::js/bootstrap.min.js'); ?>"></script>
-<script src="<?php echo $this->getViewFileUrl('Magento_Theme::js/jquery.filterizr.js'); ?>"></script>
-<script src="<?php echo $this->getViewFileUrl('Magento_Theme::js/lightbox.js'); ?>"></script>
-<script src="<?php echo $this->getViewFileUrl('Magento_Theme::js/lightslider.js'); ?>"></script>
-<script src="<?php echo $this->getViewFileUrl('Magento_Theme::js/wow.min.js'); ?>"></script>
-<script src="<?php echo $this->getViewFileUrl('Magento_Theme::js/script.js'); ?>"></script>
-<script src="<?php echo $this->getViewFileUrl('Magento_Theme::js/map.js'); ?>"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
-<script async="" defer="" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUHdpyJ-rnuTeG14UlX3DUuT7TbauVLxA&amp;signed_in=true&amp;callback=initMap"></script>
+<!-- <script type="text/javascript" src="<?php //echo $this->getViewFileUrl('js/lib/jquery.min.js'); ?>"></script> -->
+<!-- <script src="<?php //echo $this->getViewFileUrl('js/lib/bootstrap.min.js'); ?>"></script> -->
+<!-- <script src="<?php //echo $this->getViewFileUrl('Magento_Theme::js/wow.min.js'); ?>"></script> -->
+<!-- <script src="<?php //echo $this->getViewFileUrl('Magento_Theme::js/script.js'); ?>"></script> -->
+<!-- <script src="<?php //echo $this->getViewFileUrl('Magento_Theme::js/map.js'); ?>"></script> -->
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script> -->
+<!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBUHdpyJ-rnuTeG14UlX3DUuT7TbauVLxA&amp;signed_in=true&amp;callback=initMap"></script> -->
+<script>
+    require([
+        'jquery',
+        'infinispace'], function($) {
+            $(document).infinispace();
+    });
+</script>
 <!--Javascript library and plugin-->
