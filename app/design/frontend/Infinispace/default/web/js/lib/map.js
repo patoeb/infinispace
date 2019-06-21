@@ -1,6 +1,6 @@
  function initMap() { 
 
-          var myLatLng = {lat:24.280201, lng:89.920603};
+          var myLatLng = {lat:-7.7675999, lng:110.3440018};
 
           var map = new google.maps.Map(document.getElementById('map'), {
             zoom: 15,
@@ -17,7 +17,7 @@
           });
           
           var infowindow = new google.maps.InfoWindow({
-            content: "Your Company Name"
+            content: "Infinispace"
          });
          google.maps.event.addListener(marker, 'mouseover', function () {
          infowindow.open(map, marker);
