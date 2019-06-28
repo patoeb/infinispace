@@ -49,8 +49,77 @@
         /*End of Checkbox*/
     }
 
+    /*Header Custom*/
+    .cms-index-index {
+        .navbar-nav.custom_nav {
+            .minicart-wrapper {
+                .action.showcart {
+                    &:before {
+                        color: #fff !important;
+                    }
+                }
+            }
+        }
+    }
+    .page-wrapper header.page-header {
+        display: none;
+    }
+    .navbar-nav.custom_nav {
+        >.greet.welcome,
+        >.customer-welcome+.authorization-link {
+            display: none;
+        }
+        .customer-welcome {
+            padding: 15px;
+            color: #fff;
+        }
+        .minicart-custom {
+            .minicart-wrapper {
+                position: relative;
+                float: none;
+                top: 0;
+                right: 0;
+                padding: 10px;
+                margin: 0;
+            }
+            .action.showcart:before {
+                color: #333 !important;
+            }
+        }
+    }
+    header.sticky {
+        .navbar-nav.custom_nav {
+            .customer-welcome {
+                padding: 15px;
+                color: #333;
+                line-height: 20px;
+
+                .action.switch {
+                    color: #333;
+                }
+            }
+
+            .minicart-custom {
+                .minicart-wrapper {
+                    .action.showcart:before {
+                        color: #333 !important;
+                    }
+                }
+            }
+        }
+    }
+    /*End of Header Custom*/
+
     /*Footer section*/
     footer {
+        .logo-footer {
+            display: inline-block;
+            max-width: 100px;
+            margin: 0 10px 10px 0;
+        }
+        .company-name-footer {
+            display: inline-block;
+        }
         .single_address {
             p {
                 padding-left: 0;

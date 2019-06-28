@@ -111,6 +111,7 @@ define([
             $('.home_slide').lightSlider({
                 item: 1,
                 auto: true,
+                loop: true,
                 autoWidth: false,
                 controls: true,
                 prevHtml: '<i class="fa fa-angle-left"></i>',
@@ -230,6 +231,7 @@ define([
         initHomePage: function() {
             
             if ($('body.cms-index-index').length) {
+                $('.header.panel>.header.links>li').insertBefore('.minicart-custom');
             }
         },
 
