@@ -28,6 +28,8 @@ define([
         },
 
         initAllPages: function() {
+            $('.header.panel>.header.links>li').insertBefore('.minicart-custom');
+
             $(window).on('load', function(e) {
                 var winwidth = $(window).width();
                 if (winwidth > 768) {
@@ -231,7 +233,6 @@ define([
         initHomePage: function() {
             
             if ($('body.cms-index-index').length) {
-                $('.header.panel>.header.links>li').insertBefore('.minicart-custom');
             }
         },
 
