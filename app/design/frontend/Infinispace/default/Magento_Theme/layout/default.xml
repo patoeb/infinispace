@@ -17,5 +17,6 @@
         <referenceBlock name="wishlist_sidebar" remove="true" />
         <referenceBlock name="view.addto.compare" remove="true" />
         <referenceBlock name="sale.reorder.sidebar" remove="true" />
+        <move element="minicart" destination="navigation.sections" />
     </body>
 </page>
