@@ -28,6 +28,8 @@ define([
         },
 
         initAllPages: function() {
+            $('.header.panel>.header.links>li').insertBefore('.minicart-custom');
+
             $(window).on('load', function(e) {
                 var winwidth = $(window).width();
                 if (winwidth > 768) {
@@ -111,6 +113,7 @@ define([
             $('.home_slide').lightSlider({
                 item: 1,
                 auto: true,
+                loop: true,
                 autoWidth: false,
                 controls: true,
                 prevHtml: '<i class="fa fa-angle-left"></i>',

@@ -3,4 +3,7 @@
 	<event name="customer_save_before">
 		<observer instance="Infinispace\Customer\Observer\Customer\CustomerSaveBefore" name="infinispace_customer_observer_customer_customer_save_before"/>
 	</event>
+	<event name="customer_register_success">
+		<observer instance="Infinispace\Customer\Observer\Customer\CustomerRegisterSuccess" name="infinispace_customer_observer_customer_register_success"/>
+	</event>
 </config>

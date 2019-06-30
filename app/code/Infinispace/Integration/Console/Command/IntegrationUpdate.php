@@ -170,39 +170,42 @@ class IntegrationUpdate extends Command
             }
         }
 
-        echo "Removing Expired User from IP-Binding List \r\n";
-        foreach ($dataBinding as $key => $value) {
-            if(in_array($value['comment'],$expiredCustomer)) {
-                if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
-                    $this->mikrotik->write('/ip/hotspot/ip-binding/remove',false);
-                    $this->mikrotik->write('=numbers='.$key,true);
-                    $READ = $this->mikrotik->read();
-                    $this->mikrotik->disconnect();
+        echo "Removing Expired User \r\n";
+        if(count($expiredCustomer) > 0){
+            echo "Removing Expired User from IP-Binding List \r\n";
+            foreach ($dataBinding as $key => $value) {
+                if(in_array($value['comment'],$expiredCustomer)) {
+                    if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
+                        $this->mikrotik->write('/ip/hotspot/ip-binding/remove',false);
+                        $this->mikrotik->write('=numbers='.$key,true);
+                        $READ = $this->mikrotik->read();
+                        $this->mikrotik->disconnect();
+                    }
                 }
             }
-        }
 
-        echo "Removing Expired User from User List \r\n";
-        foreach ($dataUser as $key => $value) {
-            if(in_array($value['name'],$expiredCustomer)) {
-                $this->removeCustomer($value['name']);
-                if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
-                    $this->mikrotik->write('/ip/hotspot/user/remove',false);
-                    $this->mikrotik->write('=numbers='.$key,true);
-                    $READ = $this->mikrotik->read();
-                    $this->mikrotik->disconnect();
+            echo "Removing Expired User from User List \r\n";
+            foreach ($dataUser as $key => $value) {
+                if(in_array($value['name'],$expiredCustomer)) {
+                    $this->removeCustomer($value['name']);
+                    if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
+                        $this->mikrotik->write('/ip/hotspot/user/remove',false);
+                        $this->mikrotik->write('=numbers='.$key,true);
+                        $READ = $this->mikrotik->read();
+                        $this->mikrotik->disconnect();
+                    }
                 }
             }
-        }
 
-        echo "Removing Expired User from Cookie List \r\n";
-        foreach ($dataCookies as $key => $value) {
-            if(in_array($value['user'],$expiredCustomer)) {
-                if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
-                    $this->mikrotik->write('/ip/hotspot/cookie/remove',false);
-                    $this->mikrotik->write('=numbers='.$key,true);
-                    $READ = $this->mikrotik->read();
-                    $this->mikrotik->disconnect();
+            echo "Removing Expired User from Cookie List \r\n";
+            foreach ($dataCookies as $key => $value) {
+                if(in_array($value['user'],$expiredCustomer)) {
+                    if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
+                        $this->mikrotik->write('/ip/hotspot/cookie/remove',false);
+                        $this->mikrotik->write('=numbers='.$key,true);
+                        $READ = $this->mikrotik->read();
+                        $this->mikrotik->disconnect();
+                    }
                 }
             }
         }
