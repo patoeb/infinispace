@@ -6,7 +6,6 @@ return [
         'Magento_Store' => 1,
         'Magento_Directory' => 1,
         'Magento_Eav' => 1,
-        'AvS_DisableModules' => 1,
         'Magento_Backend' => 1,
         'Magento_Customer' => 1,
         'Infinispace_Integration' => 1,
