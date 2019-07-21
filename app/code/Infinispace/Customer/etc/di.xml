@@ -4,4 +4,5 @@
 	<preference for="Infinispace\Customer\Api\CustomerRepositoryInterface" type="Infinispace\Customer\Model\CustomerRepository"/>
 	<preference for="Infinispace\Customer\Api\Data\CustomerInterface" type="Infinispace\Customer\Model\Customer"/>
 	<preference for="Infinispace\Customer\Api\Data\CustomerSearchResultsInterface" type="Magento\Framework\Api\SearchResults"/>
+	<preference for="Magento\Customer\Block\Account\Dashboard\Info" type="Infinispace\Customer\Block\Account\Dashboard\Info" />
 </config>
