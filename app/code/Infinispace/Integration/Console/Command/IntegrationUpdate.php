@@ -54,7 +54,7 @@ class IntegrationUpdate extends Command
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Cache-Control: no-cache", "Content-Type: application/json", "Authorization: Bearer ".$accessKey));
         
         $result = curl_exec($ch);
-        $logger->info($result);
+        $logger->info('Inactice Customer: '.$result);
         $result = json_decode($result,true);
 
         echo "Registering Free User \r\n";
