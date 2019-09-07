@@ -54,7 +54,7 @@ class IntegrationUpdate extends Command
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Cache-Control: no-cache", "Content-Type: application/json", "Authorization: Bearer ".$accessKey));
         
         $result = curl_exec($ch);
-        $logger->info($result);
+        $logger->info('Inactice Customer: '.$result);
         $result = json_decode($result,true);
 
         echo "Registering Free User \r\n";
@@ -174,12 +174,14 @@ class IntegrationUpdate extends Command
         if(count($expiredCustomer) > 0){
             echo "Removing Expired User from IP-Binding List \r\n";
             foreach ($dataBinding as $key => $value) {
-                if(in_array($value['comment'],$expiredCustomer)) {
-                    if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
-                        $this->mikrotik->write('/ip/hotspot/ip-binding/remove',false);
-                        $this->mikrotik->write('=numbers='.$key,true);
-                        $READ = $this->mikrotik->read();
-                        $this->mikrotik->disconnect();
+                if(array_key_exists('comment',$value)){
+                    if(in_array($value['comment'],$expiredCustomer)) {
+                        if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
+                            $this->mikrotik->write('/ip/hotspot/ip-binding/remove',false);
+                            $this->mikrotik->write('=numbers='.$key,true);
+                            $READ = $this->mikrotik->read();
+                            $this->mikrotik->disconnect();
+                        }
                     }
                 }
             }

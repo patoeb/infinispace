@@ -56,12 +56,14 @@ class OrderInvoicePay implements \Magento\Framework\Event\ObserverInterface
             }
         }
 
-        if($totalDays >= 1) {
-            $subType = 'bypass';
-            $totalHours = 0;
-        } elseif($totalHours > 0 && $totalDays == 0){
-            $subType = 'timer';
-        }
+        // if($totalDays >= 1) {
+        //     $subType = 'bypass';
+        //     $totalHours = 0;
+        // } elseif($totalHours > 0 && $totalDays == 0){
+        //     $subType = 'timer';
+        // }
+
+        $subType = 'bypass';
 
         $customer = $this->_customerRepositoryInterface->getById($order->getCustomerId());
         $infiniCustomer = $this->_infiniCustomer->create();
@@ -76,23 +78,24 @@ class OrderInvoicePay implements \Magento\Framework\Event\ObserverInterface
 
                 $totalDays = $totalDays + $currentDays;
                 $totalHours = $totalHours + $currentHours;
-                if($subcribtionType == 'bypass') {
-                    $customer->setSubDays($totalDays);
-                }elseif ($subcribtionType == 'timer') {
+                // if($subcribtionType == 'bypass') {
+                //     $customer->setSubDays($totalDays);
+                // }elseif ($subcribtionType == 'timer') {
+                //     $customer->setSubHours($totalHours);
+                // }
+                // else{
                     $customer->setSubHours($totalHours);
-                }
-                else{
-                    $customer->setSubHours($totalHours);
                     $customer->setSubDays($totalDays);
-                }
+                // }
                 $customer->setUpdatedAt($today);
-                if($customer->getStatus() == 'bypassed'){
-                    $customer->setExpiredAt(date("Y-m-d H:i:s",strtotime($customer->getExpiredAt()." + {$orderDays} days")));
-                }
 
-                if($customer->getSubType() == 'timer'){
+                // if($customer->getStatus() == 'bypassed'){
+                    $customer->setExpiredAt(date("Y-m-d H:i:s",strtotime($customer->getExpiredAt()." + {$orderDays} days")));
+                // }
+
+                // if($customer->getSubType() == 'timer'){
                     $customer->setExpiredAt(date("Y-m-d H:i:s",strtotime($customer->getExpiredAt()." + {$orderHours} hours")));
-                }
+                // }
                 $customer->save();
             }
         }else {
