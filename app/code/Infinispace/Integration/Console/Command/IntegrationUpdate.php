@@ -117,10 +117,10 @@ class IntegrationUpdate extends Command
                     $this->mikrotik->disconnect();
 
                     // set status customer to bypassed
-                    $this->setStatusCustomer($customer['hotspot_username'],'bypassed');
+                    $this->setStatusCustomer($value['user'],'bypassed');
                     
                     // set Mac address and created and expired
-                    $this->setMacAddress($customer['hotspot_username'],$value['mac-address']);
+                    $this->setMacAddress($value['user'],$value['mac-address']);
                 }
             }
         }
@@ -155,6 +155,8 @@ class IntegrationUpdate extends Command
                 $this->mikrotik->disconnect();
             }
 
+            $logger->info($dataBinding);
+
             if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
                 $this->mikrotik->write('/ip/hotspot/user/print',true);
                 $READ = $this->mikrotik->read(false);
@@ -162,16 +164,21 @@ class IntegrationUpdate extends Command
                 $this->mikrotik->disconnect();
             }
 
+            $logger->info($dataUser);
+
             if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
                 $this->mikrotik->write('/ip/hotspot/cookie/print',true);
                 $READ = $this->mikrotik->read(false);
                 $dataCookies = $this->mikrotik->parseResponse($READ);
                 $this->mikrotik->disconnect();
             }
+
+            $logger->info($dataCookies);
         }
 
         echo "Removing Expired User \r\n";
         if(count($expiredCustomer) > 0){
+            $logger->info("Expired Customer:". $expiredCustomer);
             echo "Removing Expired User from IP-Binding List \r\n";
             foreach ($dataBinding as $key => $value) {
                 if(array_key_exists('comment',$value)){
