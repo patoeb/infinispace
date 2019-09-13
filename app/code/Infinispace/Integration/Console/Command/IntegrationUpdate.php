@@ -86,13 +86,15 @@ class IntegrationUpdate extends Command
             $this->mikrotik->disconnect();
         }
 
+        $logger->info("Connected Free User");
+        $logger->info($data);
+
         $ch = curl_init($processingCustomerUrl.'1');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, 0);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Cache-Control: no-cache", "Content-Type: application/json", "Authorization: Bearer ".$accessKey));
         
         $result = curl_exec($ch);
-        $logger->info($result);
         $result = json_decode($result,true);
 
         echo "Get Bypass User \r\n";
@@ -104,6 +106,8 @@ class IntegrationUpdate extends Command
                 }
             }
         }
+
+        $logger->info($bypassCustomer);
 
         echo "Register bypass User \r\n";
         foreach ($data as $key => $value) {
