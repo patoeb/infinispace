@@ -86,22 +86,16 @@ class IntegrationUpdate extends Command
             $this->mikrotik->disconnect();
         }
 
-        $logger->info("Connected Free User");
-        $logger->info($data);
-
         $ch = curl_init($processingCustomerUrl.'1');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, 0);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Cache-Control: no-cache", "Content-Type: application/json", "Authorization: Bearer ".$accessKey));
-        
-        $result = curl_exec($ch);
-        $result = json_decode($result,true);
 
         echo "Get Bypass User \r\n";
         $bypassCustomer = array();
         if(count($result) > 0){
             foreach($result as $key => $customer){
-                if($customer['sub_type'] === 'bypass' && $customer['status'] != 'bypassed') {
+                if($customer['sub_type'] === 'bypass' && ($customer['status'] != 'bypassed' || $customer['status'] != 'expired')) {
                     array_push($bypassCustomer,$customer['hotspot_username']);
                 }
             }
@@ -129,7 +123,6 @@ class IntegrationUpdate extends Command
             }
         }
 
-        
         $ch = curl_init($processingCustomerUrl.'1');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, 0);
@@ -152,77 +145,135 @@ class IntegrationUpdate extends Command
                 }
             }
 
-            if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
-                $this->mikrotik->write('/ip/hotspot/ip-binding/print',true);
-                $READ = $this->mikrotik->read(false);
-                $dataBinding = $this->mikrotik->parseResponse($READ);
-                $this->mikrotik->disconnect();
-            }
-
-            $logger->info($dataBinding);
-
-            if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
-                $this->mikrotik->write('/ip/hotspot/user/print',true);
-                $READ = $this->mikrotik->read(false);
-                $dataUser = $this->mikrotik->parseResponse($READ);
-                $this->mikrotik->disconnect();
-            }
-
-            $logger->info($dataUser);
-
-            if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
-                $this->mikrotik->write('/ip/hotspot/cookie/print',true);
-                $READ = $this->mikrotik->read(false);
-                $dataCookies = $this->mikrotik->parseResponse($READ);
-                $this->mikrotik->disconnect();
-            }
-
-            $logger->info($dataCookies);
+            $dataBinding = $this->printIpBinding();
+            $dataUser = $this->printUserHotspot();
+            $dataCookies = $this->printCookie();
         }
 
         echo "Removing Expired User \r\n";
         if(count($expiredCustomer) > 0){
-            $logger->info("Expired Customer:". $expiredCustomer);
             echo "Removing Expired User from IP-Binding List \r\n";
+            $dataBindingKey = array();
             foreach ($dataBinding as $key => $value) {
                 if(array_key_exists('comment',$value)){
                     if(in_array($value['comment'],$expiredCustomer)) {
-                        if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
-                            $this->mikrotik->write('/ip/hotspot/ip-binding/remove',false);
-                            $this->mikrotik->write('=numbers='.$key,true);
-                            $READ = $this->mikrotik->read();
-                            $this->mikrotik->disconnect();
-                        }
+                        $dataBindingKey[] = $key;
                     }
                 }
+            }
+
+            $dataBindingKey = implode(",",$dataBindingKey);
+            $logger->info($dataBindingKey);
+
+            if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
+                $this->mikrotik->write('/ip/hotspot/ip-binding/remove',false);
+                $this->mikrotik->write('=numbers='.$dataBindingKey,true);
+                $READ = $this->mikrotik->read();
+                $this->mikrotik->disconnect();
             }
 
             echo "Removing Expired User from User List \r\n";
+            $dataUserKey = array();
             foreach ($dataUser as $key => $value) {
                 if(in_array($value['name'],$expiredCustomer)) {
                     $this->removeCustomer($value['name']);
-                    if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
-                        $this->mikrotik->write('/ip/hotspot/user/remove',false);
-                        $this->mikrotik->write('=numbers='.$key,true);
-                        $READ = $this->mikrotik->read();
-                        $this->mikrotik->disconnect();
-                    }
+                    $dataUserKey[] = $key;
                 }
             }
 
+            $dataUserKey = implode(",",$dataUserKey);
+            $logger->info($dataUserKey);
+
+            if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
+                $this->mikrotik->write('/ip/hotspot/user/remove',false);
+                $this->mikrotik->write('=numbers='.$dataUserKey,true);
+                $READ = $this->mikrotik->read();
+                $this->mikrotik->disconnect();
+            }
+
             echo "Removing Expired User from Cookie List \r\n";
+            $dataCookiesKey = array();
             foreach ($dataCookies as $key => $value) {
                 if(in_array($value['user'],$expiredCustomer)) {
-                    if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
-                        $this->mikrotik->write('/ip/hotspot/cookie/remove',false);
-                        $this->mikrotik->write('=numbers='.$key,true);
-                        $READ = $this->mikrotik->read();
-                        $this->mikrotik->disconnect();
-                    }
+                    $dataCookiesKey[] = $key;
                 }
             }
+
+            $dataCookiesKey = implode(",",$dataCookiesKey);
+            $logger->info($dataCookiesKey);
+
+            if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
+                $this->mikrotik->write('/ip/hotspot/cookie/remove',false);
+                $this->mikrotik->write('=numbers='.$dataCookiesKey,true);
+                $READ = $this->mikrotik->read();
+                $this->mikrotik->disconnect();
+            }
+
         }
         
+    }
+
+    public function printIpBinding(){
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/' . 'ip-binding.log');
+        $logger = new \Zend\Log\Logger();
+        $logger->addWriter($writer);
+
+        $ipMikrotik = $this->getIpMikrotik();
+        $userMikrotik = $this->getUserMikrotik();
+        $passwordMikrotik = $this->getPasswordMirkotik();
+
+        if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
+            $this->mikrotik->write('/ip/hotspot/ip-binding/print',true);
+            $READ = $this->mikrotik->read(false);
+            $dataBinding = $this->mikrotik->parseResponse($READ);
+            $this->mikrotik->disconnect();
+        }
+
+        $logger->info($dataBinding);
+
+        return $dataBinding;
+    }
+
+    public function printUserHotspot(){
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/' . 'user-hotspot.log');
+        $logger = new \Zend\Log\Logger();
+        $logger->addWriter($writer);
+
+        $ipMikrotik = $this->getIpMikrotik();
+        $userMikrotik = $this->getUserMikrotik();
+        $passwordMikrotik = $this->getPasswordMirkotik();
+
+        if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
+            $this->mikrotik->write('/ip/hotspot/user/print',true);
+            $READ = $this->mikrotik->read(false);
+            $dataUser = $this->mikrotik->parseResponse($READ);
+            $this->mikrotik->disconnect();
+        }
+
+        $logger->info($dataUser);
+
+        return $dataUser;
+    }
+
+    public function printCookie(){
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/' . 'cookie.log');
+        $logger = new \Zend\Log\Logger();
+        $logger->addWriter($writer);
+
+        $ipMikrotik = $this->getIpMikrotik();
+        $userMikrotik = $this->getUserMikrotik();
+        $passwordMikrotik = $this->getPasswordMirkotik();
+
+        if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
+            $this->mikrotik->write('/ip/hotspot/cookie/print',true);
+            $READ = $this->mikrotik->read(false);
+            $dataCookies = $this->mikrotik->parseResponse($READ);
+            $this->mikrotik->disconnect();
+        }
+
+        $logger->info($dataCookies);
+
+        return $dataCookies;
     }
 
     public function setMacAddress($username,$macAddress){
