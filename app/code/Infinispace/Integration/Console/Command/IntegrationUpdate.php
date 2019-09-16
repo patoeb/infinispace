@@ -91,6 +91,9 @@ class IntegrationUpdate extends Command
         curl_setopt($ch, CURLOPT_POST, 0);
         curl_setopt($ch, CURLOPT_HTTPHEADER, array("Cache-Control: no-cache", "Content-Type: application/json", "Authorization: Bearer ".$accessKey));
 
+        $result = curl_exec($ch);
+        $result = json_decode($result,true);
+        
         echo "Get Bypass User \r\n";
         $bypassCustomer = array();
         if(count($result) > 0){
