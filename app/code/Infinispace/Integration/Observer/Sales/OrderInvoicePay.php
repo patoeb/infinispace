@@ -76,26 +76,22 @@ class OrderInvoicePay implements \Magento\Framework\Event\ObserverInterface
                 $currentHours = $customer->getSubHours();
                 $subcribtionType = $customer->getSubType();
 
-                $totalDays = $totalDays + $currentDays;
-                $totalHours = $totalHours + $currentHours;
-                // if($subcribtionType == 'bypass') {
-                //     $customer->setSubDays($totalDays);
-                // }elseif ($subcribtionType == 'timer') {
-                //     $customer->setSubHours($totalHours);
-                // }
-                // else{
-                    $customer->setSubHours($totalHours);
-                    $customer->setSubDays($totalDays);
-                // }
+                if($currentHours != 0 && $currentDays == 0){
+                    $totalHours = 0;
+                    $totalDays = $totalDays + $currentDays;
+                }else{
+                    $totalDays = $totalDays + $currentDays;
+                    $totalHours = $totalHours + $currentHours;
+                }
+
+                $customer->setSubHours($totalHours);
+                $customer->setSubDays($totalDays);
+
                 $customer->setUpdatedAt($today);
 
-                // if($customer->getStatus() == 'bypassed'){
-                    $customer->setExpiredAt(date("Y-m-d H:i:s",strtotime($customer->getExpiredAt()." + {$orderDays} days")));
-                // }
+                $customer->setExpiredAt(date("Y-m-d H:i:s",strtotime($customer->getExpiredAt()." + {$orderDays} days")));
+                $customer->setExpiredAt(date("Y-m-d H:i:s",strtotime($customer->getExpiredAt()." + {$orderHours} hours")));
 
-                // if($customer->getSubType() == 'timer'){
-                    $customer->setExpiredAt(date("Y-m-d H:i:s",strtotime($customer->getExpiredAt()." + {$orderHours} hours")));
-                // }
                 $customer->save();
             }
         }else {
