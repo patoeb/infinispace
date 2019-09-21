@@ -79,7 +79,7 @@ class OrderInvoicePay implements \Magento\Framework\Event\ObserverInterface
                 if($currentHours != 0 && $currentDays == 0){
                     $totalHours = 0;
                     $totalDays = $totalDays + $currentDays;
-                    $customer->setExpiredAt(date("Y-m-d H:i:s",strtotime($createdAt .'+'.$days.' day midnight')));
+                    $customer->setExpiredAt(date("Y-m-d H:i:s",strtotime($customer->getExpiredAt() .'+'.$totalDays.' day midnight')));
                 }else{
                     $totalDays = $totalDays + $currentDays;
                     $totalHours = $totalHours + $currentHours;
