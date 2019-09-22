@@ -63,7 +63,6 @@ class IntegrationUpdate extends Command
                 $this->mikrotik->debug = $debug;
                 if ($this->mikrotik->connect($ipMikrotik, $userMikrotik, $passwordMikrotik)) {
                     $this->mikrotik->write('/ip/hotspot/user/add',false);
-                    $this->mikrotik->write('=limit-uptime=15m',false);
                     $this->mikrotik->write('=server=all',false);
                     $this->mikrotik->write('=name='.$customer['hotspot_username'],false);
                     $this->mikrotik->write('=password='.$customer['hotspot_password'],true);
