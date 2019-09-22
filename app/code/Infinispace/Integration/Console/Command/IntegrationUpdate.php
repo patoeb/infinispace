@@ -97,7 +97,7 @@ class IntegrationUpdate extends Command
         $bypassCustomer = array();
         if(count($result) > 0){
             foreach($result as $key => $customer){
-                if($customer['sub_type'] === 'bypass' && ($customer['status'] != 'bypassed' || $customer['status'] != 'expired')) {
+                if($customer['sub_type'] === 'bypass' && ($customer['status'] != 'bypassed' && $customer['status'] != 'expired')) {
                     array_push($bypassCustomer,$customer['hotspot_username']);
                 }
             }
