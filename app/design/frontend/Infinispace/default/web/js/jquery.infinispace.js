@@ -1,6 +1,7 @@
 define([
     'jquery',
     'jquery/ui',
+    'bootstrap',
     'lightslider',
     'lightbox',
     'filterizr',
