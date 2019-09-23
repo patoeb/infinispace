@@ -58,6 +58,13 @@
                         color: #fff !important;
                     }
                 }
+                .block-minicart {
+					.block-content {
+						.action.viewcart {
+							color: #333;
+						}
+					}
+                }
             }
         }
     }
@@ -71,7 +78,14 @@
         }
         .customer-welcome {
             padding: 15px;
-            color: #fff;
+		    .action.switch {
+				color: #333;
+			}
+            .header.links {
+				li a {
+					color: #333;
+				}
+            }
         }
         .minicart-custom {
             .minicart-wrapper {
@@ -81,6 +95,12 @@
                 right: 0;
                 padding: 10px;
                 margin: 0;
+                .product {
+					.actions {
+					    float: none;
+						margin: 10px 0 0 0;
+					}
+                }
             }
             .action.showcart:before {
                 color: #333 !important;
