@@ -33,7 +33,7 @@ define([
 
             $(window).on('load', function(e) {
                 var winwidth = $(window).width();
-                if (winwidth > 768) {
+                if (winwidth >= 768) {
 
                     var heights = [];
                     $('.review_single').each(function() {
@@ -75,6 +75,12 @@ define([
                         }
                     });
     
+                }
+                else if(winwidth < 768) {
+                    var cartlink = $('.minicart-wrapper .action.showcart').attr("href");
+                    $('.minicart-wrapper .action.showcart').click(function(event){
+                        window.location.href = cartlink;
+                    });
                 }
             });
 
