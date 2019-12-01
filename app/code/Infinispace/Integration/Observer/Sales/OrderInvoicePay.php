@@ -76,7 +76,8 @@ class OrderInvoicePay implements \Magento\Framework\Event\ObserverInterface
                 $currentHours = $customer->getSubHours();
                 $subcribtionType = $customer->getSubType();
 
-                if($currentHours != 0 && $currentDays == 0){
+                // Upgrade half ke full day
+                if($currentHours == 4 && $currentDays == 0 && $totalDays == 1){ 
                     $totalHours = 0;
                     $totalDays = $totalDays + $currentDays;
                     $customer->setExpiredAt(date("Y-m-d H:i:s",strtotime($customer->getExpiredAt() .'+'.$totalDays.' day midnight')));
