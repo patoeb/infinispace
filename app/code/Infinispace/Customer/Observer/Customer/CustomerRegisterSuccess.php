@@ -35,8 +35,8 @@ class CustomerRegisterSuccess implements \Magento\Framework\Event\ObserverInterf
         $regionName = null;
         $city = "Sleman";
         $postcode = "55291";
-        $street = array('street' => 'Jl. Kabupaten');
-        $telephone = "085743730807";
+        $street = array('street' => 'Jl. Kabupaten KM 1,2');
+        $telephone = "082237677373";
 
         $address = $this->addressDataFactory->create();
         $address->setFirstname($firstName)
